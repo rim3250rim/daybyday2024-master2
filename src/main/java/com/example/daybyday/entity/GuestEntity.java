@@ -10,10 +10,8 @@ import lombok.Setter;
 @Table(name = "geust_table")
 public class GuestEntity {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-
+    
 }
