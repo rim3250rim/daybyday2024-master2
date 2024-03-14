@@ -15,4 +15,7 @@ public class DepartmentDTO {
     public String dpname;
     public String emname;
 
+
+
+
 }
