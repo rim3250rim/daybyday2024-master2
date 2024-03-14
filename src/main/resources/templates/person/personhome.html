@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .table-smaller {
+            width: 50%;
+            hight: 30%;
+            margin: 0 auto;
+        }
+        .form-centered {
+            text-align: center;
+            margin-top: 50px; /* 상단 여백을 조절할 수 있습니다. */
+        }
+
+
+    </style>
+
+<!--    <link th:href="@{/}" rel="stylesheet" />-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<table class="table table-smaller"  border="1">
+<tr>
+<th>지역</th>
+<th>남성</th>
+<th>여성</th>
+</tr>
+
+<th:block th:each="person : ${listPersonHome}">
+    <tr>
+
+        <td th:text="${person['address']}"></td>
+        <td th:text="${person['manperson']}"></td>
+        <td th:text="${person['womanperson']}"></td>
+     <!--   <td th:text="${ person.address }"></td>
+        <td th:text="${ person.manperson }"></td>
+        <td th:text="${ person.womanperson }"></td>-->
+    </tr>
+</th:block>
+</table>
+
+
+<form  th:action="@{/excel/down}" method="get">
+    <button type="submit" >엑셀로 다운로드</button>
+</form>
+
+</body>
+</html>

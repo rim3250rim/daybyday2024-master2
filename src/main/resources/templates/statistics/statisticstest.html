@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph</title>
+
+</head>
+<body>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+
+
+<!--
+<div id="main" style="width: 600px;height:400px;"></div>
+&lt;!&ndash; 3단계: 초기화 및 차트 옵션 설정하기 &ndash;&gt;
+<script type="text/javascript">
+    /*    type EChartsOption = echarts.EChartsOption;*/
+
+    var chartDom = document.getElementById('main');
+    var myChart = echarts.init(chartDom);
+
+
+    var xAxisDataList = /*[[${listhouseOneRoom}]]*/ [];
+    var data1List = /*[[${listhouseOneRoom}]]*/ [];
+    var data2List =/* [[${listhouseTwoRoom}]]*/ [];
+
+    // Convert the server data to the required format
+    var xAxisData = xAxisDataList.map(function(first) {
+        return first.housetype;  // Assuming there's a property called 'name'
+    });
+
+    var data1 = data1List.map(function(one) {
+        return { value: one.gagoo, name: one.housetype };  // Assuming there are 'value' and 'name' properties
+    });
+
+    var data2 = data2List.map(function(two) {
+        return { value: two.gagoo, name: two.housetype };  // Assuming there are 'value' and 'name' properties
+    });
+
+
+
+    option = {
+        title: {
+            text: "HOUSE_TYPE "
+        },
+        legend: {
+            data: ['bar', 'bar2']
+        },
+        toolbox: {
+            // y: 'bottom',
+            feature: {
+                magicType: {
+                    type: ['stack']
+                },
+                dataView: {},
+                saveAsImage: {
+                    pixelRatio: 2
+                }
+            }
+        },
+        tooltip: {},
+        xAxis: {
+            data: xAxisData,
+            splitLine: {
+                show: false
+            }
+        },
+        yAxis: {},
+        series: [
+            {
+                name: 'bar',
+                type: 'bar',
+                data: data1,
+                emphasis: {
+                    focus: 'series'
+                },
+                animationDelay: function (idx) {
+                    return idx * 10;
+                }
+            },
+            {
+                name: 'bar2',
+                type: 'bar',
+                data: data2,
+                emphasis: {
+                    focus: 'series'
+                },
+                animationDelay: function (idx) {
+                    return idx * 10 + 100;
+                }
+            }
+        ],
+        animationEasing: 'elasticOut',
+        animationDelayUpdate: function (idx) {
+            return idx * 5;
+        }
+    };
+
+    option && myChart.setOption(option);
+
+</script>-->
+<!--
+
+
+<div id="myChart" style="width: 600px;height:400px;"></div>
+
+<script>
+        var x = [];  // housetype
+        var house1 = [];  // 변수 1 데이터
+        var house2 = [];  // 변수 2 데이터
+        var house3 = [];  // 변수 3 데이터
+
+    // 차트를 그릴 함수
+    function drawChart() {
+        var ctx = document.getElementById('myChart').getContext('2d');
+
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: timeLabels,
+                datasets: [
+                    {
+                        label: 'house1',
+                        borderColor: 'rgb(255, 99, 132)',
+                        data: house1,
+                    },
+                    {
+                        label: 'house2',
+                        borderColor: 'rgb(75, 192, 192)',
+                        data: house2,
+                    },
+                    {
+                        label: 'house3',
+                        borderColor: 'rgb(54, 162, 235)',
+                        data: house3,
+                    },
+                ],
+            },
+        });
+    }
+
+    drawChart();
+</script>
+
+
+
+
+-->
+
+
+
+
+
+
+
+
+
+
+<table>
+    <tr><h2 style="text-align: center" >1인가구 가구타입별 총가구수</h2>
+        <th>No</th>
+        <th>가구타입</th>
+        <th>총가구수</th>
+
+    </tr>
+    <th:block th:each="one : ${listhouseOneRoom}">
+        <tr>
+            <td th:text="${ one.id}"></td>
+            <td th:text="${ one.housetype }"></td>
+            <td th:text="${one.gagoo}"></td>
+
+        </tr>
+    </th:block>
+</table>
+
+<table>
+    <tr><h2 style="text-align: center" >2인가구 가구타입별 총가구수</h2>
+        <th>No</th>
+        <th>가구타입</th>
+        <th>총가구수</th>
+
+    </tr>
+    <th:block th:each="two : ${listhouseTwoRoom}">
+        <tr>
+            <td th:text="${ two.id}"></td>
+            <td th:text="${ two.housetype }"></td>
+            <td th:text="${ two.gagoo}"></td>
+
+        </tr>
+    </th:block>
+</table>
+
+
+
+<table >
+    <tr><h2 style="text-align: center" >3인가구 가구타입별 총가구수</h2>
+        <th>No</th>
+        <th>가구타입</th>
+        <th>총가구수</th>
+
+    </tr>
+    <th:block th:each="three : ${listhouseThreeRoom}">
+        <tr>
+            <td th:text="${ three.id}"></td>
+            <td th:text="${ three.housetype }"></td>
+            <td th:text="${ three.gagoo}"></td>
+
+        </tr>
+    </th:block>
+</table>
+
+
+<table>
+    <tr><h2>전체데이터</h2>
+        <th>No</th>
+        <th>지역</th>
+        <th>가구타입</th>
+        <th>가구인원</th>
+        <th>총가구수</th>
+        <th>1인가구</th>
+        <th>2인가구</th>
+        <th>3인가구</th>
+
+    </tr>
+    <th:block th:each="house: ${listhouseAllRoom}">
+        <tr>
+            <td th:text="${ house.id}"></td>
+            <td th:text="${ house.area }"></td>
+            <td th:text="${ house.housetype }"></td>
+            <td th:text="${ house.housein }"></td>
+            <td th:text="${ house.gagoo}"></td>
+            <td th:text="${ house.roomone}"></td>
+            <td th:text="${ house.roomtwo}"></td>
+            <td th:text="${ house.roomthree}"></td>
+
+        </tr>
+    </th:block>
+</table>
+
+</body>
+
+</html>

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:https="http://www.w3.org/1999/xhtml"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph</title>
+
+ <!--   <script type="text/javascript" th:src="@{/}"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.2.2/echarts.min.js"></script>
+
+</head>
+
+<body>
+
+<div style="flex: 1; padding: 20px; border: 1px solid #ccc;">
+    <div style="height: 500px; width: 700px;">
+    <!--<canvas id="myChart" width="500" height="500" style="display: block; box-sizing: border-box; height: 100; width: 100;"></canvas>-->
+    <canvas id="oneRoomChart" width="200px" height="200px"  style="display: block; box-sizing: border-box; height: 200px; width: 200px;"></canvas>
+    </div>
+
+    <div style="height: 500px; width: 700px;">
+        <canvas id="twoRoomChart" width="200px" height="200px"  style="display: block; box-sizing: border-box; height: 200px; width: 200px;"></canvas>
+    </div>
+
+    <div style="height: 500px; width: 700px;">
+    <canvas id="myChart" width="600" height="400"></canvas>
+    </div>
+
+
+<script th:inline="javascript">
+    var dataList = /*[[${listhouseOneRoom}]]*/ [];
+
+    // 데이터를 추출하여 그래프에 사용할 형태로 가공
+    var labels = dataList.map(function(data) {
+        return data.housetype;  //
+    });
+
+
+    var values = dataList.map(function(data) {
+        return data.gagoo; //
+    });
+
+    // Chart.js를 사용하여 그래프를 그립니다.
+    var ctx = document.getElementById('oneRoomChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '1인가구 가구타입별 총가구수',
+                data: values,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+
+
+        options: {
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text : '가구타입',
+                        color:'blue'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: '총가구수',
+                        color:'green',
+                    },
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: '1인가구 가구타입별 총가구수',
+                    position: 'bottom',
+                    color:'orange',
+                }
+            }
+        }
+    });
+</script>
+
+
+    <script>
+
+        var Data = [];
+        for(var i =1; i<=5; i++){
+            // 시간에 따른 데이터를 담을 배열들
+            var timeLabels = [];  // 시간 라벨
+            var variable1Data = [];  // 변수 1 데이터
+            var variable2Data = [];  // 변수 2 데이터
+            var variable3Data = [];  // 변수 3 데이터
+        }
+
+        // 차트를 그릴 함수
+        function drawChart() {
+            var ctx = document.getElementById('myChart').getContext('2d');
+
+            var chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: timeLabels,
+                    datasets: [
+                        {
+                            label: 'Variable 1',
+                            borderColor: 'rgb(255, 99, 132)',
+                            data: variable1Data,
+                        },
+                        {
+                            label: 'Variable 2',
+                            borderColor: 'rgb(75, 192, 192)',
+                            data: variable2Data,
+                        },
+                        {
+                            label: 'Variable 3',
+                            borderColor: 'rgb(54, 162, 235)',
+                            data: variable3Data,
+                        },
+                    ],
+                },
+            });
+        }
+
+        // 예시 데이터를 생성하는 함수
+        function generateExampleData() {
+            for (var i = 0; i < 10; i++) {
+                var date = new Date();
+                date.setHours(12);  // 예시로 고정된 시간을 사용
+                date.setMinutes(0);
+                date.setSeconds(i * 10);  // 예시로 10초 간격으로 데이터 생성
+
+                timeLabels.push(date.toLocaleTimeString());
+                variable1Data.push(Math.random() * 10);
+                variable2Data.push(Math.random() * 10);
+                variable3Data.push(Math.random() * 10);
+            }
+        }
+
+        // 예시 데이터를 생성하고 차트를 그림
+        generateExampleData();
+        drawChart();
+    </script>
+
+
+<!--
+
+    <div id="pieChart" style="width: 600px; height: 400px;"></div>
+
+    <script th:inline="javascript">
+
+        option = {
+            title: {
+                text: 'Referer of a Website',
+                subtext: 'Fake Data',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left'
+            },
+            series: [
+                {
+                    name: 'Access From',
+                    type: 'pie',
+                    radius: '50%',
+                    data: [
+                        { value: 1048, name: 'Search Engine' },
+                        { value: 735, name: 'Direct' },
+                        { value: 580, name: 'Email' },
+                        { value: 484, name: 'Union Ads' },
+                        { value: 300, name: 'Video Ads' }
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+
+
+        // Initialize ECharts instance
+        var myChart = echarts.init(document.getElementById('pieChart'));
+
+        // Set the chart option
+        myChart.setOption(option);
+        /*]]>*/
+    </script>-->
+
+
+
+
+
+        <div id="pieChart" style="width: 600px; height: 400px;"></div>
+
+        <script th:inline="javascript">
+        /*<![CDATA[*/
+        // Chart option
+        var option = {
+            title: {
+                text: '1인가구 타입별 총 가구수 파이그래프',
+                subtext: '1인가구 타입',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left'
+            },
+            series: [
+                {
+                    name: 'Access From',
+                    type: 'pie',
+                    radius: '50%',
+                    data:[ [# th:each="one : ${listhouseOneRoom}"]
+                        {value:[[${one.gagoo}]], name: [[${one.housetype}]]},
+                        [/]
+                    ],
+         emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+
+        // Initialize ECharts instance
+        var myChart = echarts.init(document.getElementById('pieChart'));
+
+        // Set the chart option
+        myChart.setOption(option);
+        /*]]>*/
+    </script>
+
+
+
+
+
+    <div id="pieChart2" style="width: 600px; height: 400px;"></div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // Chart option
+        var option = {
+            title: {
+                text: '2인가구 타입별 총 가구수 파이그래프',
+                subtext: '2인가구 타입',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left'
+            },
+            series: [
+                {
+                    name: 'Access From',
+                    type: 'pie',
+                    radius: '50%',
+                    data:[ [# th:each="one : ${listhouseTwoRoom}"]
+        {value:[[${one.gagoo}]], name: [[${one.housetype}]]},
+        [/]
+        ],
+            emphasis: {
+            itemStyle: {
+                shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+        }
+        }
+        ]
+        };
+
+        // Initialize ECharts instance
+        var myChart = echarts.init(document.getElementById('pieChart2'));
+
+        // Set the chart option
+        myChart.setOption(option);
+        /*]]>*/
+    </script>
+
+
+
+
+
+
+
+    <script th:inline="javascript">
+        var dataList = /*[[${listhouseThreeRoom}]]*/ [];
+
+        // 데이터를 추출하여 그래프에 사용할 형태로 가공
+        var labels = dataList.map(function(data) {
+            return data.housetype;  //
+        });
+
+
+        var values = dataList.map(function(data) {
+            return data.gagoo; //
+        });
+
+        // Chart.js를 사용하여 그래프를 그립니다.
+        var ctx = document.getElementById('twoRoomChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '1인가구 가구타입별 총가구수',
+                    data: values,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+
+
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text : '가구타입',
+                            color:'blue'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: '총가구수',
+                            color:'green',
+                        },
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '1인가구 가구타입별 총가구수',
+                        position: 'bottom',
+                        color:'orange',
+                    }
+                }
+            }
+        });
+    </script>
+
+
+</div>
+
+
+<!--<button onclick="downloadExcel()">테이블 다운로드</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+<script>
+
+    function downloadExcel() {
+        // 테이블 데이터 가져오기
+        var table = document.getElementById('oneID');
+        var data = xlsx.utils.table_to_book(table);
+
+        // 엑셀 파일로 저장
+        xlsx.write(data, { bookType: 'xlsx', bookSST: true, type: 'blob' });
+        xlsx.writeFile(data, 'Data.xlsx');
+    }
+</script>-->
+
+<!--
+
+<table class="table table-smaller"  border="1" id="oneID" style="width: 50%; margin: auto ;">
+    <tr><h2 style="text-align: center" >1인가구 가구타입별 총가구수</h2>
+        <th>No</th>
+        <th>가구타입</th>
+        <th>총가구수</th>
+
+    </tr>
+    <th:block th:each="one : ${listhouseAllRoom}">
+        <tr>
+            <td th:text="${ one.id}"></td>
+            <td th:text="${ one.housetype }"></td>
+            <td th:text="${one.gagoo}"></td>
+
+        </tr>
+    </th:block>
+</table>
+-->
+
+
+
+        <table class="table table-smaller"  border="1" id="oneID" style="width: 50%; margin: auto ;">
+        <tr><h2 style="text-align: center" >1인가구 가구타입별 총가구수</h2>
+ <!--           <th>No</th>-->
+            <th>가구타입</th>
+            <th>총가구수</th>
+
+        </tr>
+        <th:block th:each="one : ${listhouseOneRoom}">
+            <tr>
+           <!--     <td th:text="${ one.id}"></td>-->
+                <td th:text="${ one.housetype }" style="text-align: center"></td>
+                <td th:text="${#numbers.formatDecimal(one.gagoo, 0, 'COMMA', 0, 'POINT')}" style="text-align: right"></td>
+              <!--  <td th:text="${one.gagoo}"></td>-->
+
+            </tr>
+        </th:block>
+            <a th:href="@{/housing/download}" download="housing_data.xlsx">Download Excel</a>
+    </table>
+
+        <table class="table table-smaller"  border="1"  style="width: 50%; margin: auto ;">
+        <tr><h2 style="text-align: center" >2인가구 가구타입별 총가구수</h2>
+    <!--        <th>No</th>-->
+            <th>가구타입</th>
+            <th>총가구수</th>
+
+        </tr>
+        <th:block th:each="two : ${listhouseTwoRoom}">
+            <tr>
+           <!--     <td th:text="${ two.id}"></td>-->
+                <td th:text="${ two.housetype }" style="text-align: center"></td>
+                <td th:text="${#numbers.formatDecimal(two.gagoo, 0, 'COMMA', 0, 'POINT')}" style="text-align: right"></td>
+
+            </tr>
+        </th:block>
+    </table>
+
+
+
+        <table class="table table-smaller"  border="1" id="threeID" style="width: 50%; margin: auto ;">
+        <tr><h2 style="text-align: center" >3인가구 가구타입별 총가구수</h2>
+        <!--    <th>No</th>-->
+            <th>가구타입</th>
+            <th>총가구수</th>
+
+        </tr>
+        <th:block th:each="three : ${listhouseThreeRoom}">
+            <tr>
+         <!--       <td th:text="${ three.id}"></td>-->
+                <td th:text="${ three.housetype }" style="text-align: center"></td>
+                <td th:text="${#numbers.formatDecimal(three.gagoo, 0, 'COMMA', 0, 'POINT')}" style="text-align: right"></td>
+
+            </tr>
+        </th:block>
+    </table>
+    </div>
+
+<table class="table table-smaller"  border="1" id="tableID" style="width: 50%; margin: auto ;">
+    <tr><h2 style="text-align: center" >전체데이터</h2>
+        <th>No</th>
+        <th>지역</th>
+        <th>가구타입</th>
+        <th>가구인원</th>
+        <th>총가구수</th>
+        <th>1인가구</th>
+        <th>2인가구</th>
+        <th>3인가구</th>
+
+    </tr>
+    <th:block th:each="house: ${listhouseAllRoom}">
+        <tr>
+            <td th:text="${ house.id}"></td>
+            <td th:text="${ house.area }"></td>
+            <td th:text="${ house.housetype }"></td>
+            <td th:text="${ house.housein }"></td>
+            <td th:text="${ house.gagoo}"></td>
+            <td th:text="${ house.roomone}"></td>
+            <td th:text="${ house.roomtwo}"></td>
+            <td th:text="${ house.roomthree}"></td>
+
+        </tr>
+    </th:block>
+</table>
+</div>
+
+
+
+</body>
+
+</html>

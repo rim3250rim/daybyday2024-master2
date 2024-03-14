@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<!--    <div th:insert="index"></div>-->
+</head>
+<!--<link rel="stylesheet" media="screen" href="/static/css/table-style.css">-->
+<div>
+    <button type="button" onclick="location.href='boardinput.do'"> 글작성</button> <br>
+    <table class = "table table-bordered table-smaller" >
+        <thead>
+        <tr>
+            <th>NO</th>
+            <th>제목</th>
+            <th>내용</th>
+            <th>작성자</th>
+            <th>작성일자</th>
+            <th>클릭수</th>
+        </tr>
+        </thead>
+
+        <tr th:each="board: ${listboarddata}">
+            <td th:text="${board.id}"></td>
+            <td><a th:href="@{|/board/${board.id}|}" th:text="${board.boardtitle}"></a></td>
+            <td><a th:href="@{/board/${board.id}}" th:text="${board.boardcontents}"></a></td>
+            <td th:text="${board.boardwriter}"></td>
+            <td th:text="*{#temporals.format(board.boardCreatedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${board.boardHits}"></td>
+        </tr>
+    </table>
+
+</div>
+
+
+<body>
+
+</body>
+</html>

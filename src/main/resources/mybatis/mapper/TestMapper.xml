@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.daybyday.repository.TestMapper">  <!--mapper 인터페이스 작성한 파일있는곳-->
+
+
+
+    <select id="allDataList" parameterType="Map" resultType="map">
+        SELECT * FROM jobs.ingoo_table
+    </select>
+
+
+    <select id="getoneRoomList" parameterType="Map" resultType="map">
+        SELECT  id,housetype,ingoo_table.gagoo
+        FROM jobs.ingoo_table
+        WHERE housein = '1인 가구' AND housetype != '계'
+    </select>
+
+</mapper>

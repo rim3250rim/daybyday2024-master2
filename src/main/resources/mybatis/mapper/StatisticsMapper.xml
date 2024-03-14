@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.daybyday.repository.StatisticsMapper">  <!--mapper 인터페이스 작성한 파일있는곳-->
+
+
+    <select id="listhouseAllRoom" parameterType="Map" resultType="map">
+        SELECT * FROM jobs.housenum_table
+    </select>
+
+
+    <select id="listhouseOneRoom" parameterType="Map" resultType="map">
+        SELECT  id,housetype,housenum_table.gagoo
+        FROM jobs.housenum_table
+        WHERE housein = '1인 가구' AND housetype != '계'
+    </select>
+
+
+    <select id="listhouseTwoRoom" parameterType="Map" resultType="map">
+        SELECT  id,housetype,housenum_table.gagoo
+        FROM jobs.housenum_table
+        WHERE housein = '2인 가구' AND housetype != '계'
+    </select>
+
+    <select id="listhouseThreeRoom" parameterType="Map" resultType="map">
+        SELECT  id,housetype,housenum_table.gagoo
+        FROM jobs.housenum_table
+        WHERE housein = '3인 가구' AND housetype != '계'
+    </select>
+
+
+
+
+</mapper>

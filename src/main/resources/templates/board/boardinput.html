@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<!--    <div th:insert="index"></div>-->
+</head>
+<form action="/boardlist.do" method="post" enctype="multipart/form-data">
+    작성자: <input type="text" name="boardwriter"> <br>
+    비밀번호 <input type="password" name="boardpass"> <br>
+    제목: <input type="text" name="boardtitle"> <br>
+    내용: <textarea name="boardcontents" cols="30" rows="10"></textarea> <br>
+    첨부파일: <input type="file" name="boardfile"> <br>
+    <input type="submit" value="글작성">
+</form>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <style>
+        .table-smaller {
+            width: 50%;
+            hight: 30%;
+            margin: 0 auto;
+        }
+        .form-centered {
+            text-align: center;
+            margin-top: 50px; /* 상단 여백을 조절할 수 있습니다. */
+        }
+    </style>
+</head>
+<body>
+<!--<script src="/js/department.js"></script>--><!--타임리프에 맞는 선언 다시해야함-->
+
+<div style="display: flex; justify-content: space-around;">
+
+    <!-- 왼쪽 영역 -->
+    <div style="flex: 1; padding: 20px; border: 1px solid #ccc;">
+
+<!--  <table class="table">-->
+
+        <table class="table table-smaller"  border="1">
+        <tr>
+    <th>부서명</th>
+    <th>이름</th>
+  </tr>
+  <th:block th:each="depart : ${listDepartment}">
+    <tr>
+          <td th:text="${ depart.dpname }"></td>
+          <td th:text="${ depart.emname }"></td>
+    </tr>
+  </th:block>
+    </table>
+<!--</table>-->
+</div>
+
+
+
+    <div style="flex: 1; padding: 20px; border: 1px solid #ccc;">
+        <h2>조건선택</h2>
+
+<div class="form-centered">
+    직원명:<select id="selectemployee">
+  <option value="">선택해주세요</option>
+  <option th:each="department : ${departmentlist}" th:value="${department.dpName}"  th:text="${department.emName}"></option>
+</select>
+<input type="submit" value="조회" onclick="getDepartmentName()">
+</div>
+
+    </div>
+
+    <script>
+        function getDepartmentName() {
+            // 선택된 직원명 가져오기
+            var selectedEmployee = $("#selectemployee").val();
+
+            // 선택된 직원명이 비어있는지 확인
+            if (!selectedEmployee) {
+                alert("직원명을 선택해주세요.");
+                return;
+            }
+
+            // Ajax 요청
+            $.ajax({
+                url: "/jsonlist",  // 실제 데이터를 제공하는 엔드포인트로 변경
+                method: "GET",
+                data: { dpName: selectedEmployee },
+                success: function () {
+                    // 성공 시 결과를 출력
+                    $("#result").text("부서명: " + selectedEmployee);
+                },
+                error: function(error) {
+                    // 에러 시 에러 메시지 출력
+                    alert("Error: " + error.responseText);
+                }
+            });
+        }
+
+
+    </script>
+
+
+ <!--  <h2> <div id ="result"></div> </h2>
+
+    <script>
+        function getDepartmentName() {
+            // 선택된 직원명 가져오기
+            var selectedEmployee = $("#selectemployee").val();
+
+            // 선택된 직원명이 비어있는지 확인
+            if (!selectedEmployee) {
+                alert("직원명을 선택해주세요.");
+                return;
+            }
+
+            // Ajax 요청
+            $.ajax({
+                url: "/test",  // 실제 데이터를 제공하는 엔드포인트로 변경
+                method: "GET",
+                data: { dpName: selectedEmployee },
+                success: function () {
+                    // 성공 시 결과를 출력
+                    $("#result").text("부서명: " + selectedEmployee);
+                },
+                error: function(error) {
+                    // 에러 시 에러 메시지 출력
+                    alert("Error: " + error.responseText);
+                }
+            });
+        }
+
+
+    </script>
+
+
+
+
+<form action="/selectdepart" method="post">
+
+  <label for="selectdepartment">부서</label>
+  <select id="selectdepartment" name="selectedDpId">
+      <option value="">선택해주세요</option>
+    <option th:each="department : ${departmentlist}" th:value="${department.dpName}" th:text="${department.dpName}"></option>
+ <option th:each="department: ${departmentList}" th:value="${department.dpName}" th:text="${department.dpName}"></option>
+  </select>
+
+  <button type="submit">Submit</button>
+
+</form>
+
+<select id="unique">
+  <option value="">선택해주세요.</option>
+<option th: th:each="department : ${uniquedpName}" th:value="${dpName}" th:selected="${user.selecteddpName eq dpName}" th:text="${dpName}"></option>
+  </th:each>
+  </select>
+</form>
+
+</div>
+
+
+<div>
+    <button  onclick="developData()"> 기업부설연구소 명단</button>
+    <table class="table table-smaller" border="1" id="dataTable">
+        <tr>
+            <th>부서명</th>
+            <th>이름</th>
+        </tr>
+    </table>
+
+
+    <button  onclick="developsData()"> 연구개발본부 명단</button>
+
+
+    <script>
+        function developData() {
+            // AJAX 요청을 사용하여 서버에서 데이터를 가져옴
+            $.ajax({
+                url: '/test2',
+                method: 'GET',
+                success: function (data) {
+                    // 데이터를 성공적으로 가져왔을 때 실행되는 함수
+                    updateTable(data);
+                },
+                error: function (error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+        }
+
+        function updateTable(data) {
+            var tableBody = $('#dataTable tbody');
+            tableBody.empty();  // 기존 데이터 비우기
+            // 서버에서 받은 데이터를 테이블에 추가
+
+
+            for (var i = 0; i < data.length; i++) {
+                var row = '<tr>' +
+                    '<td>' + data[i].dpName + '</td>' +
+                    '<td>' + data[i].emName + '</td>' +
+                    '</tr>';
+                tableBody.append(row);
+            }
+        }
+    </script>
+  <table class="table table-smaller"  border="1">
+            <tr>
+                <th>부서명</th>
+                <th>이름</th>
+            </tr>
+            <th:block th:each="develop : ${developList}">
+                <tr>
+                    <td th:text="${ develop.dpName }"></td>
+                    <td th:text="${ develop.emName }"></td>
+                </tr>
+            </th:block>
+        </table>
+
+    </div>
+
+</div>
+
+<form>
+  <select id="mySelect"></select>
+</form>
+
+<script>
+  // Ajax 호출을 통해 서버에서 데이터를 가져와서 선택박스에 추가하는 예제
+  $.ajax({
+    url: '/api/databaseValues',
+    method: 'GET',
+    success: function (data) {
+      var select = $('#selectemployee');
+      $.each(data, function (value, text) {
+        select.append($('<option>').val(value.emName).text(value.dpName));
+      });
+    }
+  });
+</script>
+</div>-->
+
+</div>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</html>

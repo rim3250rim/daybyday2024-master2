@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>JSON to Table</title>
+ <!-- 부트스트랩 CSS 추가 -->
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+ <!-- 제이쿼리 추가 -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+
+ <body>
+
+
+<a href="boardlist.do">게시판</a></br>
+
+<a href="person.do"> 통계자료 가져오기 화면내용 엑셀파일 다운로드 받기</a></br>
+
+<a href="department.do">직원정보 확인하기</a></br>
+
+<a href="statistics.do"> 그래프 확인하기 </a></br>
+
+<a href="jobis.do"> 할일등록하기 </a></br>
+
+<a href="fileupload.do"> 파일업로드 </a></br>
+
+
+<a href="menutxtfile.do"> 텍스트파일 스트림으로 읽어오기 </a></br>
+
+
+<a href="guestloginform.do"> 일반로그인 </a></br>
+
+<button onclick="showImagePopup()">Show Image</button>
+
+<script>
+ function showImagePopup() {
+  window.open("/showImage", "Image Popup", "width=600,height=600");
+ }
+</script>
+
+
+
+
+
+
+
+
+<script>
+
+
+
+
+
+
+</script>
+
+<!-- &lt;!&ndash; jQuery &ndash;&gt;
+  <meta charset="UTF-8">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  &lt;!&ndash; Bootstrap CSS &ndash;&gt;
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  &lt;!&ndash; common CSS &ndash;&gt;
+&lt;!&ndash;  <link rel="stylesheet" href="<c:url value='/resources/common/css/common.css'/>" >&ndash;&gt;
+  <title>최혜림 연습페이지</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+
+  <a class="navbar-brand" href="/"> CHR </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExample03">
+
+    <ul class="navbar-nav mr-auto">
+
+      <li class="nav-item">
+        <a class="nav-link" href="boardlist.do">게시판<span class="sr-only">(current)</span></a>
+        <ul class="nav-list">
+        </ul>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="roadsmap.do">지역확인</a>
+      </li>
+
+
+      <li class="nav-item">
+        <a class="nav-link" href="department.do">부서확인</a>
+      </li>
+
+
+      <li class="nav-item">
+        <a class="nav-link" href="statistics/statistics">통계자료 시각화</a>
+      </li>
+
+
+
+      <li class="nav-item">
+        <a class="nav-link" href="statistics/statisticstest">통계자료 테스트</a>
+      </li>
+
+
+    </ul>
+
+
+
+
+
+
+  </div>
+
+</nav>-->
+
+
+
+
+
+<div class="container mt-5">
+ <h2>JSON to Table</h2>
+ <!-- 테이블 위치 -->
+ <table id="jsonTable" class="table table-bordered">
+  <thead>
+  <tr></tr>
+  </thead>
+  <tbody>
+  </tbody>
+ </table>
+</div>
+
+<script>
+ var jsonData = {
+  TYPE:{
+   A:[{"가":10,"나":20,"다":30,"라":40,"마":50,"바":202401},
+    {"가":11,"나":22,"다":33,"라":44,"마":55,"바":202402}],
+   B:[{"가":100,"나":200,"다":300,"라":400,"마":500,"바":202403},
+    {"가":110,"나":220,"다":330,"라":440,"마":550,"바":202404}]
+  }
+ };
+
+ $(document).ready(function() {
+  var thead = $('#jsonTable thead tr');
+  // "바"를 첫 번째 열로 설정
+  thead.append('<th>바</th>');
+  var columns = Object.keys(jsonData.TYPE.A[0]);
+  console.log(columns);
+
+  columns.splice(columns.indexOf("바"), 1); // "바"를 제외한 나머지 키
+  $.each(columns, function(i, column) {
+   thead.append('<th>' + column + '</th>');
+  });
+
+  var tbody = $('#jsonTable tbody');
+  $.each(jsonData.TYPE, function(type, rows) {
+   $.each(rows, function(index, row) {
+    var tr = $('<tr></tr>');
+    // "바"의 값을 첫 번째 열에 추가
+    tr.append('<td>' + row["바"] + '</td>');
+    // "바"를 제외한 나머지 값 추가
+    $.each(columns, function(i, column) {
+     tr.append('<td>' + row[column] + '</td>');
+    });
+    tbody.append(tr);
+   });
+  });
+ });
+</script>
+
+
+
+ </body>
+</html>

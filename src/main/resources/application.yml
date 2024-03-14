@@ -1,0 +1,45 @@
+# 서버 포트 설정
+server:
+  port: 8083
+
+# database 연동 설정
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/jobs?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: 171714
+
+  # 개발중 수정 클래스와 반영하 내용 자동반영 
+  devtools:
+    livereload:
+      enabled: true
+
+  # spring data jpa 설정
+  jpa:
+    database-platform:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+    ddl-auto: update
+
+
+
+
+
+ # web:
+   # resources:
+     # static-locations: classpath:/static-loc/
+
+#js 절대경로 설정
+  mvc:
+    static-path-pattern: /static/**
+
+  web:
+    resources:
+      static-locations: classpath:/static
+
+
+#mybatis
+mybatis:
+  mapper-locations: mybatis/mapper/*.xml
