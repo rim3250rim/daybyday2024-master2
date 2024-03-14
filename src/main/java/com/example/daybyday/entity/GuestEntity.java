@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 @Table(name = "geust_table")
 public class GuestEntity {
-
-
+    
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
