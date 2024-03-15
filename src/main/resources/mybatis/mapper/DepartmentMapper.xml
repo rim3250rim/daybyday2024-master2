@@ -9,4 +9,7 @@
         SELECT *  FROM jobs.department_table
     </select>
 
+
+
+
 </mapper>

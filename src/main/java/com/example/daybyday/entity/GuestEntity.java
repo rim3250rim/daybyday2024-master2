@@ -14,4 +14,9 @@ public class GuestEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
+    private String guestname;
+
+    @Column (unique = true) //유일한 값을 가져아 한다는 제약조건
+    private String guestemail;
 }
